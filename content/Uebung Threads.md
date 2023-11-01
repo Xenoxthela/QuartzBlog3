@@ -4,7 +4,7 @@ tags:
 ---
 ### Aufgabenstellung
 Es soll eine Produktion nachgestellt werden, in der die folgenden Teile in der angegebenen Zeit produziert werden: 
-	1) • Ein Schmelzofen produziert jede Sekunde eine Einheit Metall. •
+	1) Ein Schmelzofen produziert jede Sekunde eine Einheit Metall. •
 	2) Alle sechs Sekunden soll eine Schraube aus einer Einheit Metall hergestellt werden. 
 	3) Alle drei Sekunden wird ein Blech hergestellt, wofür fünf Einheiten Metall verbraucht werden. 
 	4) Die Herstellung einer Platte dauert neun Sekunden und verbraucht ieweils zwei Schrauben und ein Blech. 
@@ -17,7 +17,7 @@ Um diese Produktion mit Threads zu simulieren, könnten Sie folgende Klassenhier
 1. **Ressourcen-Klassen** - Diese repräsentieren die verschiedenen Ressourcen: Metall, Schraube, Blech und Platte.
 2. **Produzenten-Klassen** - Diese repräsentieren die verschiedenen Produzenten: Schmelzofen, Schraubenhersteller, Blechhersteller und Plattenhersteller.
 
-![[Pasted image 20231101145619.png | 2500]]
+![[Pasted image 20231101145619.png]]
 
 
 Hier ist ein einfacher Entwurf:
