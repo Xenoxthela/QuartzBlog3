@@ -27,18 +27,23 @@ for file in $(find "$OBSIDIAN_VAULT_PATH" -name "*.md"); do
             # Fügen Sie Frontmatter hinzu, wenn er fehlt
             echo -e "---\ndraft: false\n---\n$(cat "$file")" > "$file"
         fi
+        
         # Wandelt Obsidian-Links in Standard-Markdown um
         convert_obsidian_links "$file"
+        
         # Kopieren Sie die Datei zu Quartz
         cp "$file" "$QUARTZ_CONTENT_PATH"
+
+        # Kopiert alle Bilder, die in der .md-Datei referenziert werden, zu Quartz
+        for img in $(grep -oE '\!\[Bild\]\(([^)]+)\)' "$file" | cut -d '(' -f2 | cut -d ')' -f1); do
+            if [[ -f "$OBSIDIAN_VAULT_PATH/$img" ]]; then
+                cp "$OBSIDIAN_VAULT_PATH/$img" "$QUARTZ_CONTENT_PATH"
+            fi
+        done
+
         # Entfernen Sie die Datei aus der Liste der vorhandenen Dateien, da sie aktualisiert oder hinzugefügt wurde.
         existing_files=("${existing_files[@]/$(basename "$file")}")
     fi
-done
-
-# Durchlaufen Sie jedes Bild im Obsidian-Ordner und seinen Unterverzeichnissen.
-for img in $(find "$OBSIDIAN_VAULT_PATH" -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" -o -name "*.gif"); do
-    cp "$img" "$QUARTZ_CONTENT_PATH"
 done
 
 # Löschen Sie Dateien aus Quartz, die nicht in Obsidian sind, außer der index.md.
