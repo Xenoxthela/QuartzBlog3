@@ -3,9 +3,10 @@
 OBSIDIAN_VAULT_PATH="/Users/D1AX5TD/Documents/DATA/Obsidian/Obsidian Vault - Fakultät"
 QUARTZ_CONTENT_PATH="/Users/D1AX5TD/Documents/Priv/thePeoplesMoney/QuartzBlog3/quartz/content"
 
+# Funktion zum Umwandeln von Obsidian-Bildlinks in normale Markdown-Bildlinks
 convert_obsidian_links() {
     local file="$1"
-    sed -i '' -e 's/!\[\[\(.*\)\]\]/![Bild](\1)/g' "$file"
+    sed -i '' -e 's/!\[\[Pasted image \(.*\)\.png\]\]/![Bild](\1.png)/g' "$file"
 }
 
 # Erstelle eine Liste von Dateien in Quartz, um sie später mit den Obsidian-Dateien zu vergleichen.
@@ -27,20 +28,10 @@ for file in $(find "$OBSIDIAN_VAULT_PATH" -name "*.md"); do
             # Fügen Sie Frontmatter hinzu, wenn er fehlt
             echo -e "---\ndraft: false\n---\n$(cat "$file")" > "$file"
         fi
-        
-        # Wandelt Obsidian-Links in Standard-Markdown um
+        # Konvertiere Obsidian Bildlinks
         convert_obsidian_links "$file"
-        
         # Kopieren Sie die Datei zu Quartz
         cp "$file" "$QUARTZ_CONTENT_PATH"
-
-        # Kopiert alle Bilder, die in der .md-Datei referenziert werden, zu Quartz
-        for img in $(grep -oE '\!\[Bild\]\(([^)]+)\)' "$file" | cut -d '(' -f2 | cut -d ')' -f1); do
-            if [[ -f "$OBSIDIAN_VAULT_PATH/$img" ]]; then
-                cp "$OBSIDIAN_VAULT_PATH/$img" "$QUARTZ_CONTENT_PATH"
-            fi
-        done
-
         # Entfernen Sie die Datei aus der Liste der vorhandenen Dateien, da sie aktualisiert oder hinzugefügt wurde.
         existing_files=("${existing_files[@]/$(basename "$file")}")
     fi

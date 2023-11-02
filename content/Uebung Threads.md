@@ -17,8 +17,9 @@ Um diese Produktion mit Threads zu simulieren, könnten Sie folgende Klassenhier
 1. **Ressourcen-Klassen** - Diese repräsentieren die verschiedenen Ressourcen: Metall, Schraube, Blech und Platte.
 2. **Produzenten-Klassen** - Diese repräsentieren die verschiedenen Produzenten: Schmelzofen, Schraubenhersteller, Blechhersteller und Plattenhersteller.
 
-Test2
+Test3
 
+![Bild](20231101152056.png)
 ![Bild](Pasted image 20231101145619.png)
 
 
