@@ -6,7 +6,9 @@ QUARTZ_CONTENT_PATH="/Users/D1AX5TD/Documents/Priv/thePeoplesMoney/QuartzBlog3/q
 # Funktion zum Umwandeln von Obsidian-Bildlinks in normale Markdown-Bildlinks
 convert_obsidian_links() {
     local file="$1"
-    sed -i '' -e 's/!\[\[Pasted image \(.*\)\.png\]\]/![Bild](\1.png)/g' "$file"
+    local temp_file="${file}.temp"
+    sed 's/!\[\[Pasted image \(.*\)\.png\]\]/![Bild](\1.png)/g' "$file" > "$temp_file"
+    mv "$temp_file" "$file"
 }
 
 # Erstelle eine Liste von Dateien in Quartz, um sie später mit den Obsidian-Dateien zu vergleichen.
