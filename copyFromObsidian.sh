@@ -58,11 +58,13 @@ for file in $(find "$OBSIDIAN_VAULT_PATH" -name "*.md"); do
     fi
 done
 
+
 for file in "${existing_files[@]}"; do
-    if [ "$file" != "index.md" ] && [ -e "$QUARTZ_CONTENT_PATH/$file" ]; dann
+    if [ "$file" != "index.md" ] && [ -e "$QUARTZ_CONTENT_PATH/$file" ]; then
         rm "$QUARTZ_CONTENT_PATH/$file"
     fi
 done
+
 
 echo "Kopieren abgeschlossen."
 
