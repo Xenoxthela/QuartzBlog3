@@ -2,8 +2,13 @@
 
 OBSIDIAN_VAULT_PATH="/Users/D1AX5TD/Documents/DATA/Obsidian/Obsidian Vault - Fakultät"
 QUARTZ_CONTENT_PATH="/Users/D1AX5TD/Documents/Priv/thePeoplesMoney/QuartzBlog3/quartz/content"
+OBSIDIAN_IMAGE_PATH="$OBSIDIAN_VAULT_PATH/Images"  # Pfad zum Obsidian Bilder-Ordner
+QUARTZ_IMAGE_PATH="$QUARTZ_CONTENT_PATH/images"    # Zielordner in Quartz
 
 echo "Beginne mit dem Kopieren..."
+
+# Erstellen des Bilder-Ordners in Quartz, falls dieser noch nicht existiert
+mkdir -p "$QUARTZ_IMAGE_PATH"
 
 existing_files=()
 for file in "$QUARTZ_CONTENT_PATH"/*.md; do
@@ -33,16 +38,15 @@ for file in $(find "$OBSIDIAN_VAULT_PATH" -name "*.md"); do
             echo "Bildreferenzen gefunden: $image_references"
             
             for image_ref in $image_references; do
-                # Entfernen Sie alles, was kein Dateiname ist (wenn es zusätzlichen Text gibt)
                 image_filename=$(echo $image_ref | awk -F'/' '{print $NF}')
                 # Fügen Sie .png hinzu, wenn es nicht bereits vorhanden ist
                 [[ "$image_filename" != *".png" ]] && image_filename+=".png"
-                image_path=$(dirname "$file")"/$image_filename"
+                image_path="$OBSIDIAN_IMAGE_PATH/$image_filename"
                 
                 echo "Versuche, das Bild von $image_path zu kopieren..."
                 
                 if [ -e "$image_path" ]; then
-                    cp "$image_path" "$QUARTZ_CONTENT_PATH"
+                    cp "$image_path" "$QUARTZ_IMAGE_PATH"
                     echo "Bild erfolgreich kopiert: $image_ref"
                 else
                     echo "Bildpfad existiert nicht: $image_path"
