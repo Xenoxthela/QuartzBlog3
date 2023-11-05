@@ -1,0 +1,94 @@
+---
+tags:
+  - publish
+  - java
+  - interface
+  - sealed
+  - non-sealed
+  - sealed-classes
+  - java-advanced
+---
+**Versiegelte Klassen und Schnittstellen in Java**
+
+---
+### Einleitung
+
+Das Modellieren von Domänen und das Entwerfen von Software-Architekturen erfordert oft Klarheit über die möglichen Typen oder Implementierungen, die eine Klasse oder Schnittstelle haben kann. Java hat dieses Bedürfnis mit der Einführung von versiegelten Klassen und Schnittstellen erkannt und bietet nun eine bequeme Möglichkeit, diese Einschränkungen im Code auszudrücken.
+
+### Das Grundkonzept von versiegelten Klassen
+
+Versiegelte Klassen, eingeführt in Java 15 als Vorschau und stabilisiert in Java 17, ermöglichen es Entwicklern, die Unterklassen einer Klasse oder die Implementierungen einer Schnittstelle explizit anzugeben. Dies führt zu erhöhter Sicherheit und Klarheit im Design.
+
+Beispiel:
+
+```java
+public sealed class Shape permits Circle, Rectangle, Triangle {}
+```
+
+Die obige Klasse `Shape` kann nur von den Klassen `Circle`, `Rectangle` und `Triangle` erweitert werden.
+
+### Vorteile von versiegelten Klassen
+
+1. **Eindeutigkeit**: Die Einschränkung der möglichen Unterklassen erhöht die Vorhersagbarkeit und Robustheit des Codes.
+2. **Erweiterte Typensicherheit**: Compiler können präzisere Typüberprüfungen durchführen, da die Hierarchie der Unterklassen bekannt ist.
+3. **Ausdrucksstärke**: Es bietet eine klare Möglichkeit, das Design und die Absicht des Codes auszudrücken.
+
+### Anwendungsbeispiele
+
+**1. Modellieren von Zustandsmaschinen**
+
+   Versiegelte Klassen sind hervorragend geeignet, um endliche Zustände zu modellieren:
+
+```java
+public sealed interface State permits OnState, OffState, ErrorState {}
+
+public final class OnState implements State { /* ... */ }
+public final class OffState implements State { /* ... */ }
+public final class ErrorState implements State { /* ... */ }
+```
+
+**2. Algebraische Datentypen (ADTs)**
+
+   In funktionalen Programmiersprachen häufig verwendet, können ADTs auch in Java durch den Einsatz von versiegelten Klassen modelliert werden:
+
+```java
+public sealed interface Expr permits ConstantExpr, AddExpr, MultiplyExpr {}
+
+public final class ConstantExpr implements Expr {
+    private final int value;
+    /* ... */
+}
+
+public final class AddExpr implements Expr {
+    private final Expr left, right;
+    /* ... */
+}
+
+public final class MultiplyExpr implements Expr {
+    private final Expr left, right;
+    /* ... */
+}
+```
+
+### Corner Cases und Hinweise
+
+**1. Verwendung mit `non-sealed`**
+
+   Manchmal möchten Sie, dass einige Unterklassen versiegelt sind, während andere offen für Erweiterungen bleiben. Das Schlüsselwort `non-sealed` ermöglicht dies:
+
+```java
+public sealed class A permits B, C {}
+public non-sealed class B extends A {}
+public final class C extends A {}
+```
+
+B kann hier von anderen Klassen erweitert werden, während C dies nicht kann.
+
+### Best Practices
+
+1. **Klarheit über die Absicht**: Verwenden Sie versiegelte Klassen und Schnittstellen, wenn Sie ausdrücklich die möglichen Untertypen einschränken wollen. Übermäßige Verwendung kann jedoch die Erweiterbarkeit des Codes einschränken.
+2. **Kohäsion**: Stellen Sie sicher, dass alle Untertypen eng verwandt sind und zur gleichen Domäne gehören.
+
+### Fazit
+
+Versiegelte Klassen und Schnittstellen bieten Java-Entwicklern eine mächtige Möglichkeit, ihre Absichten im Code klar auszudrücken und gleichzeitig die Sicherheit und Robustheit ihrer Anwendungen zu erhöhen. Durch gezielten Einsatz dieser neuen Funktion können Java-Entwickler präzisere und klarer strukturierte Codes schreiben.
