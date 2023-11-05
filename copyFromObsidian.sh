@@ -29,9 +29,7 @@ for file in $(find "$OBSIDIAN_VAULT_PATH" -name "*.md"); do
         cp "$file" "$target_file"
         existing_files=("${existing_files[@]/$filename}")
 
-        # Bilder aus Obsidian kopieren und Markdown-Code für Bilder anpassen
-        sed -i.bak -E 's/\!\[\[([^]]+)\]\]/[![](\.\.\/images\/\1.png)](\.\.\/images\/\1.png "Enlarge Image")/g' "$target_file"
-
+        # Bilder aus Obsidian kopieren
         image_references=$(grep -oE '\!\[\[([^]]+)\]\]' "$file" | sed -E 's/!\[\[([^]]+)\]\]/\1/g')
 
         if [ -z "$image_references" ]; then
@@ -58,15 +56,15 @@ for file in $(find "$OBSIDIAN_VAULT_PATH" -name "*.md"); do
     fi
 done
 
-
 for file in "${existing_files[@]}"; do
     if [ "$file" != "index.md" ] && [ -e "$QUARTZ_CONTENT_PATH/$file" ]; then
         rm "$QUARTZ_CONTENT_PATH/$file"
     fi
 done
 
-
 echo "Kopieren abgeschlossen."
+
+
 
 
 # #!/bin/bash
@@ -100,7 +98,9 @@ echo "Kopieren abgeschlossen."
 #         cp "$file" "$target_file"
 #         existing_files=("${existing_files[@]/$filename}")
 
-#         # Bilder aus Obsidian kopieren
+#         # Bilder aus Obsidian kopieren und Markdown-Code für Bilder anpassen
+#         sed -i.bak -E 's/\!\[\[([^]]+)\]\]/[![](\.\.\/images\/\1.png)](\.\.\/images\/\1.png "Enlarge Image")/g' "$target_file"
+
 #         image_references=$(grep -oE '\!\[\[([^]]+)\]\]' "$file" | sed -E 's/!\[\[([^]]+)\]\]/\1/g')
 
 #         if [ -z "$image_references" ]; then
@@ -127,10 +127,14 @@ echo "Kopieren abgeschlossen."
 #     fi
 # done
 
+
 # for file in "${existing_files[@]}"; do
 #     if [ "$file" != "index.md" ] && [ -e "$QUARTZ_CONTENT_PATH/$file" ]; then
 #         rm "$QUARTZ_CONTENT_PATH/$file"
 #     fi
 # done
 
+
 # echo "Kopieren abgeschlossen."
+
+
